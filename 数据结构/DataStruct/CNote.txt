@@ -1,0 +1,56 @@
+/*
+C/C++中typedef 结构体
+
+分三块来讲述：
+1 首先：//注意在C和C++里不同
+在C中定义一个结构体类型要用typedef :
+typedef struct Student
+{
+int a;
+}Stu;
+于是在声明变量的时候就可：Stu stu1; (如果没有typedef就必须用struct Student stu1; 来声明)
+这里的Stu实际上就是struct Student的别名。Stu == struct Student
+另外这里也可以不写Student（于是也不能struct Student stu1; 了，必须是Stu stu1; ）
+typedef struct
+{
+int a;
+}Stu;
+但在c++里很简单，直接
+struct Student
+{
+int a;
+};
+于是就定义了结构体类型Student，声明变量时直接Student stu2；
+== == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == ==
+
+2.其次：
+在c++中如果用typedef的话，又会造成区别：
+struct   Student
+{
+int   a;
+}stu1;//stu1是一个变量
+
+
+typedef   struct   Student2
+{
+int   a;
+}stu2;//stu2是一个结构体类型=struct Student
+
+
+使用时可以直接访问stu1.a
+但是stu2则必须先   stu2 s2;
+然后               s2.a = 10;
+==================================================================================
+指针变量和变量指针
+
+int *p;//指针变量
+p=&a; //p就是变量a的指针,你可以叫它变量指针
+
+////提取指针指向的值
+//*L
+////提取该变量的地址
+//&L
+*/
+
+
+
