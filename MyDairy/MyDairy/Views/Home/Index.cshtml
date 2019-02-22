@@ -1,0 +1,123 @@
+﻿@model IEnumerable<MyDiary.Models.Diary>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/shared/_LayoutPage.cshtml";
+}
+
+<h2>Diaries</h2>
+
+<p>
+    <a onclick="$('#C_Diary').modal('show')">
+        Create New
+    </a>
+   
+</p>
+<div class="modal fade" id="C_Diary" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+    @using (Html.BeginForm("Add", "Diary", FormMethod.Post))
+                {
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Create Diary</h4>
+            </div>
+            <div class="modal-body">
+
+                
+                    <label >Title</label>
+                    <div >
+                        <input type="text" class="form-control" name="C_Title" />
+
+                    </div>
+                    <label >Content</label>
+                    <div >
+                        <textarea class="form-control" name="C_Content"></textarea>
+
+                    </div>
+               
+                
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    }<!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+
+<table class="table table-responsive" >
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Content)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PubDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.user.UserName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Title)
+        </td>
+        <td>
+            @{
+                
+                if(item.Content.Length>50)
+                {
+                    item.Content=item.Content.ToString().Substring(0,49)+"...";
+                }
+            }
+            @Html.DisplayFor(modelItem =>item.Content)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PubDate)
+</td>
+        <td>
+            @Html.DisplayFor(modelItem => item.user.UserName)
+        </td>
+        <td>
+
+            <a href="@Url.Content("~/Diary/Details/" + @item.Id)">Details</a>|
+            <a href="@Url.Content("~/Diary/Remove/" + @item.Id)">Remove</a>
+        </td>
+    </tr>
+}
+
+
+
+</table>
+<div class="btn-group"  >
+    @{
+
+        int PageNow = Convert.ToInt32(ViewData["PageNow"]);
+        int PageCount = Convert.ToInt32(ViewData["PageCount"]);
+
+        for (int i = 1; i <= PageCount; i++)
+        {
+            if (PageNow!=i)
+            {
+                
+                
+            <a href="@Url.Content("~/Home/Index?PageNow="+i)" class="btn btn-default"  >@i</a>
+                
+            }
+            else
+            {
+            <a href="@Url.Content("~/Home/Index?PageNow="+i)" class="btn btn-default btn-primary"  >@i</a>
+   
+            }
+        }
+    }
+</div>
