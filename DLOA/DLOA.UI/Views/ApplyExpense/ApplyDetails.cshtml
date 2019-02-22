@@ -1,0 +1,26 @@
+﻿@model DLOA.Model.WorkFlowStep
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ApplyDetails</title>
+</head>
+<body>
+    标题: @Model.WorkFlowInstance.InstantTitle
+    <br />
+
+    申请人：@Model.WorkFlowInstance.SubBy
+    <br />
+    申请时间:@Model.WorkFlowInstance.SubTime
+    <br />
+    申请内容:@Model.WorkFlowInstance.Remark
+    <br />
+    审批意见:@Model.Comment
+
+</body>
+</html>

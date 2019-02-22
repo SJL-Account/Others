@@ -1,0 +1,443 @@
+﻿ @model  IQueryable<DLOA.Model.UserInfo>
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery-1.7.1.min.js"></script>
+    <script src="~/Scripts/easyui-lang-zh_CN.js"></script>
+    <script src="~/Scripts/jquery.easyui.min.js"></script>
+    <link href="~/Content/themes/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/themes/default/easyui.css" rel="stylesheet" />
+    <link href="~/Content/themes/icon.css" rel="stylesheet" />
+    <style>
+        body {
+            font-family: 微软雅黑;
+        }
+    </style>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function(){
+            $("#AddDiv").hide();
+            $("#EditDiv").hide();
+            $("#RoleDiv").hide();
+            $("#ActionDiv").hide();
+            $("#SearchDiv").hide();
+
+            $("#selectedbtn").click(function () {
+                var selectedId = $('#selectedId').val();
+                var selectedUserName = $('#selectedUserName').val();
+                LodeData(
+                        {
+                            'UserId': selectedId,
+
+                            'UserName': selectedUserName
+                        });
+            })
+
+            LodeData();
+        })
+
+
+        function LodeData(QueryParams1)
+        {
+            $("#tt").datagrid({
+                url: '/UserInfo/GetListByPage',
+                title: '用户列表',
+                fit:true,
+                //width: 500,
+                //height: 500,
+                fitColumns: true,
+                idField: 'UserId',//这里表示的是主键列名称，如果这里不指定，会导致在getselections中不会找到所有选中对象的情况
+                loadMsg: '正在加载用户的信息...',
+                pagination: true,
+                singleSelect: false,
+                pageSize: 10,
+                pageNumber: 1,
+                pageList: [10, 20, 30],
+                queryParams: QueryParams1,
+               
+               
+                columns: [[
+						{ field: 'ck', checkbox: true, align: 'left', width: 50 },
+						{ field: 'UserId', title: '编号', width: 80 },
+						{ field: 'UserName', title: '用户名', width: 120 },
+                        {field:'Remark',title:'描述',width:120}
+						//{
+						//    field: 'UserAge', title: '性别', width: 80, align: 'right',
+						//    formatter: function (value, row, index) {
+						//        return (eval(value.replace(/\/Date\((\d+)\)\//gi, "new Date($1)"))).pattern("yyyy-M-d h:m:s");
+						//    }
+						//}
+
+                ]],
+                toolbar: [{
+                    id: 'toolbarAdd',
+                    text: '添加',
+                    iconCls: 'icon-add',
+                    handler: AddShow
+                },
+                {
+                    id: 'toolbarEdit',
+                    text: '修改',
+                    iconCls: 'icon-edit',
+                    handler: EditShow
+                },
+                {
+                    id: 'toolbarRemove',
+                    text: '删除',
+                    iconCls: 'icon-remove',
+                    handler: RemoveShow
+                },
+                {
+                    id: 'toolSetRole',
+                    text: '设置角色',
+                    iconCls: 'icon-cut',
+                    handler: SetRoleShow
+                },
+                {
+                    id: 'toolSearch',
+                    text: '查找',
+                    iconCls: 'icon-search',
+                    handler: SearchShow
+                },
+                {
+                    id: 'toolSetAction',
+                    text: '设置否决',
+                    iconCls: 'icon-tip',
+                    handler: SetActionShow
+                }
+                ]
+                
+            });
+        }
+
+
+
+        function AddShow()
+        {
+            $("#AddDiv").show();
+            $("#AddDiv").dialog({
+                title: "添加用户",
+                collapsible: true,
+                minimizable: false,
+                maximizable: false,
+                resizable: true,
+                modal:true,
+
+                buttons: [{
+                    text: "添加",
+                    iconCls: "icon-add",
+                    handler: function () {
+                        $("#AddDiv form").submit();
+                    }
+                }, {
+                    text: "取消",
+                    iconCls: "icon-cancel",
+                    handler: function () {
+                        $("#AddDiv").dialog("close");
+                    }
+                }]
+            });
+        }
+
+    
+        function AddAfter(msg)
+        {
+    
+            if (msg == "ok")
+            {
+                $('#AddDiv').dialog('close');
+                $("#tt").datagrid('load');
+
+                
+
+            }
+            else if(msg=="no")
+            {
+                $.messager.alert('提示', '添加失败');
+
+            }
+            else
+            {
+                $.messager.alert('提示', '无访问权限');
+            }
+        }
+
+        function EditShow()
+        {
+            
+            var item = $('#tt').datagrid('getSelections');
+            if (item.length != 1)
+            {
+                $.messager.alert('警告', '请选择一条修改的数据');
+                return;
+            }
+
+            var id = item[0]["UserId"];
+           
+
+            $("#EditDiv").show();
+            $("#EditDiv iframe").attr("src",'@Url.Action("Edit","UserInfo")?id='+id)
+            $("#EditDiv").dialog({
+                title: "添加用户",
+                collapsible: true,
+                minimizable: false,
+                maximizable: false,
+                resizable: true,
+                modal: true,
+
+                buttons: [{
+                    text: "修改",
+                    iconCls: "icon-add",
+                    handler: function () {
+                        //修改提交
+                        $('#EditDiv iframe')[0].contentWindow.EditSubmit();
+                    }
+                }, {
+                    text: "取消",
+                    iconCls: "icon-cancel",
+                    handler: function () {
+                        $("#EditDiv").dialog("close");
+                    }
+                }]
+            });
+        }
+
+        function RemoveShow ()
+        {
+            //获取所有选项
+            var selections = $('#tt').datagrid('getSelections');
+
+            if(selections.length<=0)
+            {
+                $.messager.alert('提示','请选择一条删除的数据');
+                return;
+            }
+
+            //封装数据
+            var ids = '';
+            $.each(selections, function (i, item) {
+                ids+=item['UserId'] + ',';
+            })
+
+            //把最后一个逗号截取掉
+
+            ids = ids.substring(0, ids.length - 1);
+
+
+            //向服务器发异步请求
+            $.messager.confirm('警告', '确定删除数据', function (msg) {
+                if (msg) {
+                    $.post('@Url.Action("Remove","UserInfo")',
+                        {idList:ids},
+                        function(data)
+                        {
+                            if(data=="ok")
+                            {
+                                
+                                $.messager.alert("提示","删除成功");
+                                $("#tt").datagrid("reload");
+                                //清除所有的已选择项
+                                $("#tt").datagrid("clearSelections");
+                            }
+                            else
+                            {
+                                $.messager.alert("提示","删除失败");
+                            }
+                        }
+                        )
+                }
+
+
+
+            })
+
+        }
+        function EditAfter (msg)
+        {
+            if (msg == "ok") {
+                $("#EditDiv").dialog("close");
+                $("#tt").datagrid('reload');
+
+
+
+            }
+            else if (msg == 'no') {
+                $.messager.alert('提示', '修改失败');
+
+            }
+
+        }
+        
+        function SetRoleShow()
+        {
+            var selections = $('#tt').datagrid('getSelections');
+
+            if (selections.length != 1) {
+                $.messager.alert('提示', '请选择一条数据');
+                return;
+            }
+            var id = selections[0]["UserId"];
+            $("#RoleDiv").show();
+            $("#RoleDiv iframe").attr('src','@Url.Action("SetRole","UserInfo")?id='+id);
+            $("#RoleDiv").dialog({
+                title: "设置权限",
+                collapsible: true,
+                minimizable: true,
+                maximizable: true,
+                resizable: true,
+
+                buttons: [{
+                    text: "设置",
+                    iconCls: "icon-cut",
+                    handler: function () {
+                        $("#RoleDiv iframe")[0].contentWindow.SetRole();
+                        //$("#add form").submit();
+                    }
+                }, {
+                    text: "取消",
+                    iconCls: "icon-cancel",
+                    handler: function () {
+                        $("#RoleDiv").dialog("close");
+                    }
+                }]
+            });
+        }
+        function SetActionShow()
+        {
+            var selections = $('#tt').datagrid('getSelections');
+
+            if (selections.length != 1) {
+                $.messager.alert('提示', '请选择一条数据');
+                return;
+            }
+            $("#ActionDiv").show();
+            var id = selections[0]["UserId"];
+            $("#ActionDiv iframe").attr('src', '@Url.Action("SetAction","UserInfo")?uid=' + id);
+
+            $("#ActionDiv").dialog({
+                title: "搜索",
+                collapsible: true,
+                minimizable: true,
+                maximizable: true,
+                resizable: true,
+
+                buttons: [
+                 {
+                     text: "取消",
+                     iconCls: "icon-cancel",
+                     handler: function () {
+                         $("#ActionDiv").dialog("close");
+                     }
+                 }]
+            });
+
+        }
+
+        function SearchShow()
+        {
+            $("#SearchDiv").show();
+            $("#SearchDiv").dialog({
+                title: "搜索",
+                collapsible: true,
+                minimizable: true,
+                maximizable: true,
+                resizable: true,
+
+                buttons: [
+                 {
+                    text: "取消",
+                    iconCls: "icon-cancel",
+                    handler: function () {
+                        $("#SearchDiv").dialog("close");
+                    }
+                }]
+            });
+
+        }
+    </script>
+</head>
+<body>
+
+    <div id="SearchDiv" >
+        <table>
+
+            <tr>
+                <td><strong>信息查找:</strong></td>
+                <td>用户ID</td>
+                <td><input type="text" id="selectedId" class="form-control" /></td>
+                <td>用户名</td>
+                <td>
+                    <input type="text" id="selectedUserName" class="form-control" />
+                </td>
+                <td>
+                    <input type="button" value="查找" id="selectedbtn" class="btn btn-primary"  />
+                </td>
+            </tr>
+        </table>
+    </div>
+
+
+    <div class="easyui-panel" fit="true" >
+        <table id="tt"></table>
+    </div>
+
+  
+
+    <div id="AddDiv">
+
+        @using(Ajax.BeginForm("Add", "UserInfo", new AjaxOptions {
+         
+            OnSuccess="AddAfter"
+         
+        }))
+        {
+           <table class="table table-hover">
+               <tr>
+                   <td>用户名</td>
+                   
+                    <td><input type="text" name="UserName" class="form-control" /></td>
+               </tr>
+               <tr>
+                   <td>密码</td>
+                   <td><input type="password" name="UserPwd" class="form-control" /></td>
+
+
+               </tr>
+               <tr>
+                   <td>备注</td>
+                   <td><input type="text" name="Remark" class="form-control" /></td>
+
+
+               </tr>
+           </table>
+        }
+    </div>
+
+    <div id="EditDiv">
+        <iframe frameborder="0" height="100%" width="100%" >
+
+        </iframe>
+
+    </div>
+
+    <div id="RoleDiv">
+    
+        <iframe height="300" width="400">
+
+        </iframe>
+    </div>
+    
+
+    <div id="ActionDiv">
+        <iframe height="300" width="400"></iframe>
+    </div>
+
+</body>
+</html>

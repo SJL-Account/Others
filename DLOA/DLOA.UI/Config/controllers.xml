@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net">
+
+  <object type="DLOA.UI.Controllers.UserInfoController, DLOA.UI" singleton="false"  parent="BaseController" >
+    
+	  <property name="service" ref="UserInfoService" />
+    <property name="roleService" ref="RoleInfoService" />
+    <property name="actionService" ref="ActionInfoService" />
+
+  </object>
+  <object type="DLOA.UI.Controllers.UserLoginController, DLOA.UI" singleton="false" >
+
+    <property name="service" ref="UserInfoService" />
+
+  </object>
+	<object type="DLOA.UI.Controllers.RoleInfoController, DLOA.UI" singleton="false" >
+		<!--引用程序集，并创建指定对象属性-->
+		<property name="service" ref="RoleInfoService" />
+    <property name="actionService" ref="ActionInfoService" />
+	</object>
+
+  <object type="DLOA.UI.Controllers.ActionInfoController, DLOA.UI" singleton="false" >
+    <!--引用程序集，并创建指定对象属性-->
+    <property name="service" ref="ActionInfoService" />
+  </object>
+  <object type="DLOA.UI.Controllers.HomeController, DLOA.UI" singleton="false"  parent="BaseController"  >
+    <!--引用程序集，并创建指定对象属性-->
+    <property name="actionservice" ref="ActionInfoService" />
+  </object>
+  <object name="BaseController" type="DLOA.UI.Controllers.BaseController, DLOA.UI" singleton="false" >
+    <!--引用程序集，并创建指定对象属性-->
+    <property name="userinfoservice" ref="UserInfoService" />
+    <property name="actionInfoService" ref="ActionInfoService" />
+    <property name="workFlowInstanceService" ref="WorkFlowInstanceService" />
+    <property name="workFlowStepService" ref="WorkFlowStepService" />
+    <property name="workFlowModelService" ref="WorkFlowModelService" />
+
+  </object>
+<object type="DLOA.UI.Controllers.WorkFlowModelController, DLOA.UI" singleton="false"  parent="BaseController"    >
+  
+</object>
+  <object  type="DLOA.UI.Controllers.WorkFlowController, DLOA.UI"  singleton="false"  parent="BaseController" >
+    
+  </object>
+  <object type="DLOA.UI.Controllers.ApplyExpenseController, DLOA.UI" singleton="false"  parent="BaseController"    >
+  
+  </object>
+
+</objects>

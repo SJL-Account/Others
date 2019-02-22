@@ -1,0 +1,305 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery-1.7.1.min.js"></script>
+    <script src="~/Scripts/jquery.easyui.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <link href="~/Content/themes/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/themes/default/easyui.css" rel="stylesheet" />
+    <link href="~/Content/themes/icon.css" rel="stylesheet" />
+    <script type="text/javascript">
+    $(function () {
+        $("#AddDiv").hide();
+        $("#EditDiv").hide();
+        //$("#ActionDiv").hide();
+        //$("#SearchDiv").hide();
+       @* $("#selectedBtn").click(function () {
+            var selectedRoleId = $("#selectedRoleId").val();
+            var selectedRoleName = $("#selectedRoleName").val();
+
+             LoadTable(
+                    {
+                    'RoleId': selectedRoleId,
+                    'RoleName': selectedRoleName});
+
+            @*$.ajax('@Url.Action("GetListByPage","WorkFlowModel")',
+                    {
+                        'RoleId': selectedRoleId,
+                        'RoleName':selectedRoleName
+                    }, function (data) {
+                        $("#RoleList").datagrid("reload");
+                    })
+
+
+
+            })*@
+            LoadTable();
+        })
+        function LoadTable(QueryParams)
+        {
+            $("#WorkFlowModelDiv").datagrid({
+                url: '/WorkFlowModel/GetListByPage',
+                title: '工作流模型列表',
+                //width: 700,
+                //height: 400,
+                fit: true,
+                fitColumns: true,
+                idField: 'ModelId',
+                loadMsg: '正在加载模型的信息...',
+                pagination: true,
+                singleSelect: false,
+                pageSize: 10,
+                pageNumber: 1,
+                pageList: [10, 20, 30],
+                queryParams: QueryParams,
+                columns: [[
+						{ field: 'ck', checkbox: true, align: 'left', width: 50 },
+						{ field: 'ModelId', title: '编号', width: 80 },
+						{ field: 'ModelTitle', title: '模型名称', width: 120 },
+                        { field: 'ControllerName', title: '控制器名称', width: 120 },
+                        { field: 'ActionName', title: '行为名称', width: 120 },
+                        { field: 'Remark', title: '描述', width: 120 },
+						//{
+						//    field: '列名2', title: '注册时间', width: 80, align: 'right',
+						//    formatter: function (value, row, index) {
+						//        return (eval(value.replace(/\/Date\((\d+)\)\//gi, "new Date($1)"))).pattern("yyyy-M-d h:m:s");
+						//    }
+						//}
+
+                ]],
+                toolbar: [{
+                    id: 'toolbarAdd',
+                    text: '添加',
+                    iconCls: 'icon-add',
+                    handler: AddShow
+                },
+                {
+                    id: 'toolbarEdit',
+                    text: '修改',
+                    iconCls: 'icon-edit',
+                    handler: EditShow
+                },
+                {
+                    id: 'toolbarRemove',
+                    text: '删除',
+                    iconCls: 'icon-remove',
+                    handler: RemoveShow
+                },
+                {
+                    id: 'toolbarSearch',
+                    text: '查找',
+                    iconCls: 'icon-search',
+                    handler: SearchShow
+                }
+
+                ]
+            });
+
+        }
+
+        function AddShow()
+        {
+            $("#AddDiv").show();
+            $("#AddDiv").dialog({
+                title: "添加模型",
+                collapsible: true,
+                minimizable: true,
+                maximizable: true,
+                resizable: true,
+
+                buttons: [{
+                    text: "添加",
+                    iconCls: "icon-add",
+                    handler: function () {
+                        $("#AddDiv form").submit();
+                    }
+                }, {
+                    text: "取消",
+                    iconCls: "icon-cancel",
+                    handler: function () {
+                        $("#AddDiv").dialog("close");
+                    }
+                }]
+            });
+
+        }
+
+        function AddAfter(msg)
+        {
+            if(msg=="ok")
+            {
+                $("#AddDiv").dialog("close");
+                $.messager.alert("提示", "添加成功");
+
+                $("#WorkFlowModelDiv").datagrid('reload');
+            }
+            else if(msg=="no")
+            {
+                alert("添加失败");
+            }
+        }
+
+        function EditShow()
+        {
+            $("#EditDiv").show();
+            var item = $("#WorkFlowModelDiv").datagrid("getSelections");
+            if (item.length != 1)
+            {
+                $.messager.alert("警告", "请选择一条修改的数据");
+                return;
+            }
+            var id=item[0]["ModelId"];
+            $("#EditDiv iframe").attr("src", '@Url.Action("Edit","WorkFlowModel")?id=' + id);
+
+            $("#EditDiv").dialog({
+                title: "修改模型",
+                collapsible: true,
+                minimizable: true,
+                maximizable: true,
+                resizable: true,
+
+                buttons: [{
+                    text: "修改",
+                    iconCls: "icon-edit",
+                    handler: function () {
+                        $("#EditDiv iframe")[0].contentWindow.EditSubmit();
+                    }
+                }, {
+                    text: "取消",
+                    iconCls: "icon-cancel",
+                    handler: function () {
+                        $("#EditDiv").dialog("close");
+                    }
+                }]
+            });
+        }
+        
+        function　EditAfter (msg)
+        {
+            if (msg == "ok") {
+
+                $("#EditDiv").dialog("close");
+                $("#WorkFlowModelDiv").datagrid("reload");
+
+            }
+            else if(msg=="no")
+            {
+                $.messager.alert("提示", "修改失败");
+            }
+        }
+
+
+
+        function RemoveShow()
+        {
+            var selectionsRemove = $("#WorkFlowModelDiv").datagrid("getSelections");
+            if(selectionsRemove.length<=0)
+            {
+                $.messager.aler("提示","请选择一条要删除的数据");
+                return;
+            }
+            var idList = '';
+            $.each(selectionsRemove, function (i, item) {
+                idList += item['ModelId'] + ',';
+            })
+            idList = idList.substring(0, idList.length - 1);
+            $.messager.confirm("提示", "确定要删除吗", function (msg) {
+
+                if (msg)
+                {
+                    $.post('@Url.Action("Remove","WorkFlowModel")',
+
+                     { idList: idList },
+                     function (data) {
+                         if (data == "ok") {
+                             $("#WorkFlowModelDiv").datagrid("reload");
+                         }
+                         else if (data == "no") {
+                             $.messager.alert("提示", "删除失败");
+                         }
+                     })
+                } } )
+
+        }
+
+
+       
+        function SearchShow()
+        {
+            $("#SearchDiv").show();
+            $("#SearchDiv").dialog({
+                title: "搜索",
+                collapsible: true,
+                minimizable: true,
+                maximizable: true,
+                resizable: true,
+
+                buttons: [ {
+                    text: "取消",
+                    iconCls: "icon-cancel",
+                    handler: function () {
+                        $("#SearchDiv").dialog("close");
+                    }
+                }]
+            });
+        }
+    </script>
+</head>
+    <body>
+<table id="WorkFlowModelDiv">
+
+</table>
+        <div id="AddDiv">
+
+            @using (Ajax.BeginForm("Add", "WorkFlowModel", new AjaxOptions
+        {
+
+            OnSuccess = "AddAfter"
+
+        }))
+            {
+                <table class="table table-border">
+                    <tr>
+                        <td><label>模型名称</label></td>
+                        <td><input class="form-control" name="ModelTitle" type="text" /></td>
+
+                    </tr>
+                    <tr>
+                        <td><label>控制器</label></td>
+                        <td><input class="form-control" name="ControllerName" type="text" /></td>
+
+                    </tr>
+                    <tr>
+                        <td><label>行为</label></td>
+                        <td><input class="form-control" name="ActionName" type="text" /></td>
+
+                    </tr>
+                    <tr>
+                        <td><label>描述</label></td>
+                        <td><input class="form-control" name="Remark" type="text" /></td>
+
+                    </tr>
+
+                </table>
+
+
+
+
+            }
+
+        </div>
+
+        <div id="EditDiv">
+            <iframe height="400" width="400"></iframe>
+        </div>
+    </body>
+</html>
+

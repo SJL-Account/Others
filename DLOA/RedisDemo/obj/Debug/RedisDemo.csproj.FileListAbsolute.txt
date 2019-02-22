@@ -1,0 +1,9 @@
+F:\OA\DLOA\RedisDemo\bin\Debug\RedisDemo.exe.config
+F:\OA\DLOA\RedisDemo\bin\Debug\RedisDemo.exe
+F:\OA\DLOA\RedisDemo\bin\Debug\RedisDemo.pdb
+F:\OA\DLOA\RedisDemo\bin\Debug\ServiceStack.dll
+F:\OA\DLOA\RedisDemo\bin\Debug\ServiceStack.Interfaces.dll
+F:\OA\DLOA\RedisDemo\bin\Debug\ServiceStack.ServiceInterface.dll
+F:\OA\DLOA\RedisDemo\obj\Debug\RedisDemo.csprojResolveAssemblyReference.cache
+F:\OA\DLOA\RedisDemo\obj\Debug\RedisDemo.exe
+F:\OA\DLOA\RedisDemo\obj\Debug\RedisDemo.pdb

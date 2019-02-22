@@ -1,0 +1,46 @@
+﻿@model DLOA.Model.WorkFlowStep
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ApplyAprrove</title>
+</head>
+<body>
+        标题: @Model.WorkFlowInstance.InstantTitle
+    <br />
+
+    申请人：@Model.WorkFlowInstance.SubBy
+    <br />
+    申请时间:@Model.WorkFlowInstance.SubTime
+    <br />
+    申请内容:@Model.WorkFlowInstance.Remark
+    <br />
+    
+@using (Ajax.BeginForm("ApplyAprrove", "ApplyExpense", new AjaxOptions
+{
+}))
+    {
+       <input type="hidden" name="StepId" value="@Model.StepId" />
+    <input type="hidden" name="InstanceId" value=' @ViewData["InstanceId"]' />
+
+   <label>意见:</label> <textarea name="Remark"></textarea>
+    <label>下一审批人:</label>
+    <input type="text" name="NextId" />
+    @*<select>
+        <option></option>
+    </select>*@
+    <input type="radio" name="Comment" value="1" /><label>同意</label>
+    <input type="radio" name="Comment" value="0" /><label>驳回</label>
+    <input type="submit" value="审批" />
+         
+    }
+
+    
+
+</body>
+</html>

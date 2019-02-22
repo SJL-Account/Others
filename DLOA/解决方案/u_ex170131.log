@@ -1,0 +1,17 @@
+#Software: Microsoft Internet Information Services 10.0
+#Version: 1.0
+#Date: 2017-01-31 02:10:57
+#Fields: date time s-ip cs-method cs-uri-stem cs-uri-query s-port cs-username c-ip cs(User-Agent) cs(Referer) sc-status sc-substatus sc-win32-status time-taken
+2017-01-31 02:10:57 127.0.0.1 GET / - 80 - 127.0.0.1 Mozilla/5.0+(Windows+NT+10.0;+WOW64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/45.0.2454.101+Safari/537.36 - 200 0 22 23092
+2017-01-31 02:10:57 ::1 GET / - 80 - ::1 Mozilla/5.0+(Windows+NT+10.0;+WOW64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/45.0.2454.101+Safari/537.36 - 200 0 22 23104
+2017-01-31 02:11:12 ::1 GET /favicon.ico - 80 - ::1 Mozilla/5.0+(Windows+NT+10.0;+WOW64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/45.0.2454.101+Safari/537.36 - 404 0 22 38110
+2017-01-31 02:11:12 127.0.0.1 GET /favicon.ico - 80 - 127.0.0.1 Mozilla/5.0+(Windows+NT+10.0;+WOW64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/45.0.2454.101+Safari/537.36 - 404 0 22 38104
+2017-01-31 02:11:49 127.0.0.1 GET / - 80 - 127.0.0.1 Mozilla/5.0+(Windows+NT+10.0;+WOW64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/45.0.2454.101+Safari/537.36 - 200 0 0 5
+2017-01-31 02:11:49 127.0.0.1 GET /iisstart.png - 80 - 127.0.0.1 Mozilla/5.0+(Windows+NT+10.0;+WOW64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/45.0.2454.101+Safari/537.36 http://127.0.0.1/ 200 0 0 109
+2017-01-31 02:11:49 127.0.0.1 GET /favicon.ico - 80 - 127.0.0.1 Mozilla/5.0+(Windows+NT+10.0;+WOW64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/45.0.2454.101+Safari/537.36 http://127.0.0.1/ 404 0 2 3
+2017-01-31 02:14:29 127.0.0.1 GET / - 80 - 127.0.0.1 Mozilla/5.0+(Windows+NT+10.0;+WOW64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/45.0.2454.101+Safari/537.36 - 304 0 0 7
+2017-01-31 02:14:29 127.0.0.1 GET /iisstart.png - 80 - 127.0.0.1 Mozilla/5.0+(Windows+NT+10.0;+WOW64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/45.0.2454.101+Safari/537.36 http://127.0.0.1/ 304 0 0 4
+2017-01-31 02:17:11 127.0.0.1 GET / - 80 - 127.0.0.1 Mozilla/5.0+(Windows+NT+10.0;+WOW64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/45.0.2454.101+Safari/537.36 - 304 0 0 7
+2017-01-31 02:17:11 127.0.0.1 GET /iisstart.png - 80 - 127.0.0.1 Mozilla/5.0+(Windows+NT+10.0;+WOW64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/45.0.2454.101+Safari/537.36 http://127.0.0.1/ 304 0 0 5
+2017-01-31 02:22:29 127.0.0.1 GET / - 80 - 127.0.0.1 Mozilla/5.0+(Windows+NT+10.0;+WOW64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/45.0.2454.101+Safari/537.36 - 304 0 0 8
+2017-01-31 02:22:29 127.0.0.1 GET /iisstart.png - 80 - 127.0.0.1 Mozilla/5.0+(Windows+NT+10.0;+WOW64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/45.0.2454.101+Safari/537.36 http://127.0.0.1/ 304 0 0 34

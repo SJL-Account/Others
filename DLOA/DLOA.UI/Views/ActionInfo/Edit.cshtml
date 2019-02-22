@@ -1,0 +1,114 @@
+﻿@model DLOA.Model.ActionInfo
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <script src="~/Scripts/jquery-1.7.1.min.js"></script>
+    <link href="~/Content/themes/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/Scripts/MyAjaxForm.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <title>Edit</title>
+    <script>
+
+        $(function () {
+            
+
+            if($("#IsMenu").attr('checked'))
+            {
+                $("#UpLoadTable").show();
+
+            }
+            else
+            {
+                $("#UpLoadTable").hide();
+
+            }
+
+            $("#IsMenu").click(function () {
+                if (this.checked)
+                {
+                    $("#UpLoadTable").show();
+                }
+                else
+                {
+                    $("#UpLoadTable").hide();
+
+                }
+            })
+
+
+            $("#UpLoadBtn").click(function () {
+                if ($("#IconName").val()) {
+                    //ajax异步上传图片
+                    $("#EditForm").ajaxSubmit({
+                        error: function (error) { alert(error); },
+                        url: '/ActionInfo/UpLoadIcon',//post请求地址，
+                        type: "post",
+                        dataType: "text",//返回值类型:文本
+                        success: function (data/*返回值*/) {
+                            alert("上传成功！");
+                            //图标地址
+                            $("#IconUrl").val(data);
+                            //追加图片
+                            $("#IconPlaceHold").append("<img  src='" + data + "'/>");
+
+                        }
+
+                    });
+                }
+                else {
+                    $.messager.alert("提示", '请选择文件');
+
+                }
+            })
+
+        })
+
+        function EditSubmit()
+        {
+            $("form").submit();
+        }
+        function EditAfter(msg) {
+            window.parent.EditAfter(msg);
+        }
+    </script>
+</head>
+<body>
+    @using (Ajax.BeginForm("Edit", "ActionInfo", new AjaxOptions
+        {
+            OnSuccess = "EditAfter"
+        }, new
+        {
+            id = "EditForm",
+            enctype = "multipart/form-data"
+        }))
+    {
+
+
+        <table style="margin:10px" class="table table-border">
+            <input type="hidden" name="ActionId" value="@Model.ActionId" />
+            <tr><td><label>权限名称</label></td><td>@Html.TextBoxFor(m => m.ActionTitle, new {@class="form-control" })</td></tr>
+            <tr><td><label>控制器名称</label></td><td>@Html.TextBoxFor(m => m.ControllerName, new { @class = "form-control" })</td></tr>
+            <tr><td><label>行为名称</label></td><td>@Html.TextBoxFor(m => m.ActionName, new { @class = "form-control" })</td></tr>
+
+            <tr><td><label>备注</label></td><td>@Html.TextBoxFor(m => m.Remark, new { @class = "form-control" })</td></tr>
+            <tr><td><label>是否为菜单权限</label></td><td>@Html.CheckBoxFor(m => m.IsMenu, new { @name="IsMenu", @id="IsMenu"})</td></tr>
+
+        </table>
+        
+        <table style="margin:10px" class="table table-border" id="UpLoadTable">
+        <tr>
+            <td rowspan="2"><label>上传图标</label></td>
+            <td><input type="file" name="IconName" id="IconName" /><input type="hidden" name="IconUrl" id="IconUrl" value="@Model.MenuIcon" /></td>
+        </tr>
+        <tr><td><input type="button" id="UpLoadBtn" value="上传图标" /></td><td id="IconPlaceHold"></td></tr>
+
+    </table>
+
+    }
+</body>
+</html>

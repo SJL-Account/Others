@@ -1,0 +1,316 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <script src="~/Scripts/jquery-1.7.1.min.js"></script>
+
+   
+    <script src="~/Scripts/easyui-lang-zh_CN.js"></script>
+    <script src="~/Scripts/jquery.easyui.min.js"></script>
+    <link href="~/Content/themes/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/themes/default/easyui.css" rel="stylesheet" />
+    <link href="~/Content/themes/icon.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/MyAjaxForm.js"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $("#AddDiv").hide();
+            $("#EditDiv").hide();
+            $("#UpLoadTable").hide();
+
+
+
+            $("#IsMenu").click(function () {
+                if (this.checked)
+                {
+                    $("#UpLoadTable").show();
+                }
+                else
+                {
+                    $("#UpLoadTable").hide();
+
+                }
+                //UpLoadTable
+            })
+            $("#UpLoadBtn").click(function () {
+                UpLoadIcon();
+            })
+            LodeData();
+        })
+        function UpLoadIcon() {
+            if ($("#IconName").val()) {
+                //ajax异步上传图片
+                $("#AddForm").ajaxSubmit({
+                    error: function (error) { alert(error); },
+                    url: '/ActionInfo/UpLoadIcon',//post请求地址，
+                    type: "post",
+                    dataType: "text",//返回值类型:文本
+                    success: function (data/*返回值*/) {
+                        alert("上传成功！");
+                        //图标地址
+                        $("#IconUrl").val(data);
+                        //追加图片
+                        $("#IconPlaceHold").html("<img  src='" + data + "'/>");
+                        
+                    }
+
+                });
+            }
+            else {
+                $.messager.alert("提示", '请选择文件');
+
+            }
+            //$("#UpLoadBtn").unbind("click", UpLoadIcon);
+
+        }
+
+        function LodeData(QueryParams1) {
+            $("#ActionList").datagrid({
+                url: '/ActionInfo/GetListByPage',
+                title: '权限列表',
+                //width: 600,
+                //height: 500,
+                fit: true,
+                fitColumns:true,
+                fitColumns: true,
+                idField: 'ActionId',//这里表示的是主键列名称，如果这里不指定，会导致在getselections中不会找到所有选中对象的情况
+                loadMsg: '正在加载权限的信息...',
+                pagination: true,
+                singleSelect: false,
+                pageSize: 10,
+                pageNumber: 1,
+                pageList: [10, 20, 30],
+                queryParams: QueryParams1,
+                columns: [[
+						{ field: 'ck', checkbox: true, align: 'left', width: 50 },
+						{ field: 'ActionId', title: '编号', width: 80 },
+						{ field: 'ActionTitle', title: '权限名称', width: 120 },
+                        { field: 'ControllerName', title: '控制器名称', width: 120 },
+                        { field: 'ActionName', title: '动作名称', width: 120 },
+                        {
+                            field: 'IsMenu', title: '是否为桌面菜单', width: 120, align: 'right',
+                            formatter:function(value,row,index)
+                            {
+                                return value ? '是' : '否';
+                            }
+                        },
+                        { field: 'Remark', title: '描述', width: 120 },
+                        
+                
+
+
+
+                        //{
+						//    field: 'UserAge', title: '性别', width: 80, align: 'right',
+						//    formatter: function (value, row, index) {
+						//        return (eval(value.replace(/\/Date\((\d+)\)\//gi, "new Date($1)"))).pattern("yyyy-M-d h:m:s");
+						//    }
+						//}
+
+                ]],
+                toolbar: [{
+                    id: 'toolbarAdd',
+                    text: '添加',
+                    iconCls: 'icon-add',
+                    handler: AddShow
+                },
+                {
+                    id: 'toolbarEdit',
+                    text: '修改',
+                    iconCls: 'icon-edit',
+                    handler: EditShow
+                },
+                {
+                    id: 'toolbarRemove',
+                    text: '删除',
+                    iconCls: 'icon-remove',
+                    handler: RemoveShow
+                }
+                ]
+
+            });
+        }
+        function AddShow() {
+            $("#AddDiv").show();
+            $("#AddDiv").dialog({
+                title: "添加权限",
+                collapsible: true,
+                minimizable: true,
+                maximizable: true,
+                resizable: true,
+                width:500,
+           
+                buttons: [{
+                    text: "添加",
+                    iconCls: "icon-add",
+                    handler: function () {
+                        $("#AddDiv form").submit();
+                    }
+                }, {
+                    text: "取消",
+                    iconCls: "icon-cancel",
+                    handler: function () {
+                        $("#AddDiv").dialog("close");
+                    }
+                }]
+            });
+
+        }
+        function EditShow() {
+            $("#EditDiv").show();
+            var selection = $("#ActionList").datagrid("getSelections");
+            if (selection.length != 1)
+            {
+                $.messager.alert("提示", "请选择一条修改的数据");
+                $("#ActionList").datagrid("clearSelections")
+                return;
+            }
+            var id = selection[0]["ActionId"];
+            $("#EditDiv iframe").attr("src", '@Url.Action("Edit","ActionInfo")?id=' + id);
+            $("#EditDiv").dialog({
+                title: "修改权限",
+                collapsible: true,
+                minimizable: true,
+                maximizable: true,
+                resizable: true,
+                
+
+                buttons: [{
+                    text: "修改",
+                    iconCls: "icon-edit",
+                    handler: function () {
+                        $("#EditDiv iframe")[0].contentWindow.EditSubmit();
+                    } 
+                }, {
+                    text: "取消",
+                    iconCls: "icon-cancel",
+                    handler: function () {
+                        $("#EidtDiv").dialog("close");
+                    }
+                }]
+            });
+
+        }
+
+        function RemoveShow() {
+            var selections = $("#ActionList").datagrid("getSelections");
+
+            if (selections.length <= 0) {
+                $.messager.alert("提示","请选择最少一条数据");
+            }
+            var ids = '';
+            $.each(selections, function (i, item) {
+                ids += item["ActionId"]+',';
+            })
+            ids=ids.substring(0, ids.length - 1);
+            $.messager.confirm("提示", "确定删除数据?", function (msg) {
+                if (msg) {
+                    $.post('@Url.Action("Remove","ActionInfo")',
+                        
+                        {
+                            idList:ids
+                        },
+                        function (data) {
+                            if (data == "ok")
+                            {
+                                $("#ActionList").datagrid('load');
+                            }
+                            else {
+                                $.messager.alert('提示', '删除失败');
+                            }
+                        }
+                        )
+
+
+                }
+
+            })
+
+
+        }
+
+        function UpLoadBtnClick()
+        {
+            $("#UpLoadBtn").click(function () {
+
+            })
+        }
+        function AddAfter(msg) {
+
+            if (msg == "ok") {
+                $('#AddDiv').dialog('close');
+                $("#ActionList").datagrid('load');
+
+            }
+            else if (msg == "no") {
+                $.messager.alert('提示', '添加失败');
+
+            }
+        }
+        function EditAfter(msg) {
+            if (msg == "ok") {
+                $("#EditDiv").dialog("close");
+                $("#ActionList").datagrid('reload');
+
+
+
+            }
+            else if (msg == 'no') {
+                $.messager.alert('提示', '修改失败');
+
+            }
+
+        }
+    </script>
+</head>
+<body>
+    <div class="easyui-panel" fit="true">
+        <table id="ActionList"></table>
+    </div>
+
+    <div id="AddDiv">
+        @using (Ajax.BeginForm("Add", "ActionInfo", new AjaxOptions
+        {
+            OnSuccess = "AddAfter"
+        }, new {
+            id="AddForm",
+            enctype="multipart/form-data" 
+        }))
+        {
+        
+
+        <table style="margin:10px" class="table table-border" >
+            <tr><td><label>权限名称</label></td><td><input name="ActionTitle" class="form-control" /></td></tr>
+            <tr><td><label>控制器名称</label></td><td><input name="ControllerName" class="form-control" /></td></tr>
+            <tr><td><label>行为名称</label></td><td><input name="ActionName" class="form-control" /></td></tr>
+            <tr><td><label>备注</label></td><td><input name="Remark" class="form-control" /></td></tr>
+            <tr><td><label>是否为菜单权限</label></td><td><input type="checkbox" name="IsMenu" id="IsMenu" value="1" /></td></tr>
+
+            <tr>
+         </table>
+    <table style="margin:10px" class="table table-border" id="UpLoadTable">
+        <tr>
+            <td rowspan="2"><label>上传图标</label></td>
+            <td><input type="file" name="IconName" id="IconName" /><input type="hidden" name="IconUrl" id="IconUrl" /></td>
+        </tr>
+        <tr><td><input type="button" id="UpLoadBtn" value="上传图标" /></td><td id="IconPlaceHold"></td></tr>
+
+    </table>
+
+        }
+    </div>
+
+    <div id="EditDiv">
+        <iframe width="500" height="500"></iframe>
+    </div>
+
+</body>
+</html>

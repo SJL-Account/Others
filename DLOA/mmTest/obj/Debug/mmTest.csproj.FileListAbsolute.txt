@@ -1,0 +1,10 @@
+F:\OA\DLOA\mmTest\bin\Debug\mmTest.exe.config
+F:\OA\DLOA\mmTest\bin\Debug\mmTest.exe
+F:\OA\DLOA\mmTest\bin\Debug\mmTest.pdb
+F:\OA\DLOA\mmTest\bin\Debug\Common.Logging.dll
+F:\OA\DLOA\mmTest\bin\Debug\ICSharpCode.SharpZipLib.dll
+F:\OA\DLOA\mmTest\bin\Debug\log4net.dll
+F:\OA\DLOA\mmTest\bin\Debug\Memcached.ClientLibrary.dll
+F:\OA\DLOA\mmTest\obj\Debug\mmTest.csprojResolveAssemblyReference.cache
+F:\OA\DLOA\mmTest\obj\Debug\mmTest.exe
+F:\OA\DLOA\mmTest\obj\Debug\mmTest.pdb

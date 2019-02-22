@@ -1,0 +1,172 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="DLOA" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+  <EntityContainer Name="DLOAContainer" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="UserInfoSet" EntityType="DLOA.UserInfo" />
+    <EntitySet Name="RoleInfoSet" EntityType="DLOA.RoleInfo" />
+    <AssociationSet Name="UserInfoRoleInfo" Association="DLOA.UserInfoRoleInfo">
+      <End Role="UserInfo" EntitySet="UserInfoSet" />
+      <End Role="RoleInfo" EntitySet="RoleInfoSet" />
+    </AssociationSet>
+    <EntitySet Name="ActionInfoSet" EntityType="DLOA.ActionInfo" />
+    <AssociationSet Name="RoleInfoActionInfo" Association="DLOA.RoleInfoActionInfo">
+      <End Role="RoleInfo" EntitySet="RoleInfoSet" />
+      <End Role="ActionInfo" EntitySet="ActionInfoSet" />
+    </AssociationSet>
+    <EntitySet Name="UserActionSet" EntityType="DLOA.UserAction" />
+    <AssociationSet Name="UserInfoUserAction" Association="DLOA.UserInfoUserAction">
+      <End Role="UserInfo" EntitySet="UserInfoSet" />
+      <End Role="UserAction" EntitySet="UserActionSet" />
+    </AssociationSet>
+    <AssociationSet Name="UserActionActionInfo" Association="DLOA.UserActionActionInfo">
+      <End Role="UserAction" EntitySet="UserActionSet" />
+      <End Role="ActionInfo" EntitySet="ActionInfoSet" />
+    </AssociationSet>
+    <EntitySet Name="WorkFlowModelSet" EntityType="DLOA.WorkFlowModel" />
+    <EntitySet Name="WorkFlowInstanceSet" EntityType="DLOA.WorkFlowInstance" />
+    <EntitySet Name="WorkFlowStepSet" EntityType="DLOA.WorkFlowStep" />
+    <AssociationSet Name="WorkFlowInstanceWorkFlowStep" Association="DLOA.WorkFlowInstanceWorkFlowStep">
+      <End Role="WorkFlowInstance" EntitySet="WorkFlowInstanceSet" />
+      <End Role="WorkFlowStep" EntitySet="WorkFlowStepSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="UserInfo">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserName" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="false" />
+    <Property Name="UserPwd" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="Remark" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="SubBy" Type="Int32" Nullable="false" />
+    <Property Name="SubTime" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="RoleInfo" Relationship="DLOA.UserInfoRoleInfo" FromRole="UserInfo" ToRole="RoleInfo" />
+    <NavigationProperty Name="UserAction" Relationship="DLOA.UserInfoUserAction" FromRole="UserInfo" ToRole="UserAction" />
+  </EntityType>
+  <EntityType Name="RoleInfo">
+    <Key>
+      <PropertyRef Name="RoleId" />
+    </Key>
+    <Property Name="RoleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="RoleName" Type="String" Nullable="false" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="Remark" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="SubBy" Type="Int32" Nullable="false" />
+    <Property Name="SubTime" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="UserInfo" Relationship="DLOA.UserInfoRoleInfo" FromRole="RoleInfo" ToRole="UserInfo" />
+    <NavigationProperty Name="ActionInfo" Relationship="DLOA.RoleInfoActionInfo" FromRole="RoleInfo" ToRole="ActionInfo" />
+  </EntityType>
+  <Association Name="UserInfoRoleInfo">
+    <End Type="DLOA.UserInfo" Role="UserInfo" Multiplicity="*" />
+    <End Type="DLOA.RoleInfo" Role="RoleInfo" Multiplicity="*" />
+  </Association>
+  <EntityType Name="ActionInfo">
+    <Key>
+      <PropertyRef Name="ActionId" />
+    </Key>
+    <Property Name="ActionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ActionTitle" Type="String" Nullable="false" MaxLength="500" Unicode="true" FixedLength="false" />
+    <Property Name="ControllerName" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="ActionName" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="Remark" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="SubBy" Type="Int32" Nullable="false" />
+    <Property Name="SubTime" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="RoleInfoRoleId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="RoleInfo" Relationship="DLOA.RoleInfoActionInfo" FromRole="ActionInfo" ToRole="RoleInfo" />
+    <Property Name="IsMenu" Type="Boolean" Nullable="false" />
+    <Property Name="MenuIcon" Type="String" Nullable="true" Unicode="false" MaxLength="100" FixedLength="false" />
+    <NavigationProperty Name="UserAction" Relationship="DLOA.UserActionActionInfo" FromRole="ActionInfo" ToRole="UserAction" />
+  </EntityType>
+  <Association Name="RoleInfoActionInfo">
+    <End Type="DLOA.RoleInfo" Role="RoleInfo" Multiplicity="*" />
+    <End Type="DLOA.ActionInfo" Role="ActionInfo" Multiplicity="*" />
+  </Association>
+  <EntityType Name="UserAction">
+    <Key>
+      <PropertyRef Name="UserId" />
+      <PropertyRef Name="ActionId" />
+    </Key>
+    <Property Name="IsAllow" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="UserInfo" Relationship="DLOA.UserInfoUserAction" FromRole="UserAction" ToRole="UserInfo" />
+    <Property Name="UserId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="ActionInfo" Relationship="DLOA.UserActionActionInfo" FromRole="UserAction" ToRole="ActionInfo" />
+    <Property Name="ActionId" Type="Int32" Nullable="false" />
+  </EntityType>
+  <Association Name="UserInfoUserAction">
+    <End Type="DLOA.UserInfo" Role="UserInfo" Multiplicity="1" />
+    <End Type="DLOA.UserAction" Role="UserAction" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserInfo">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="UserAction">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UserActionActionInfo">
+    <End Type="DLOA.UserAction" Role="UserAction" Multiplicity="*" />
+    <End Type="DLOA.ActionInfo" Role="ActionInfo" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="ActionInfo">
+        <PropertyRef Name="ActionId" />
+      </Principal>
+      <Dependent Role="UserAction">
+        <PropertyRef Name="ActionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="WorkFlowModel">
+    <Key>
+      <PropertyRef Name="ModelId" />
+    </Key>
+    <Property Name="ModelId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ModelTitle" Type="String" Nullable="false" Unicode="true" FixedLength="false" MaxLength="50" />
+    <Property Name="ControllerName" Type="String" Nullable="false" Unicode="false" FixedLength="false" MaxLength="50" />
+    <Property Name="ActionName" Type="String" Nullable="false" Unicode="true" FixedLength="false" MaxLength="50" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="SubTime" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="SubBy" Type="Int32" Nullable="false" />
+    <Property Name="Remark" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="WorkFlowInstance">
+    <Key>
+      <PropertyRef Name="InstanceId" />
+    </Key>
+    <Property Name="InstanceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="InstantTitle" Type="String" Nullable="false" Unicode="true" MaxLength="50" FixedLength="false" />
+    <Property Name="SubBy" Type="Int32" Nullable="false" />
+    <Property Name="SubTime" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Remark" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="InstanceGuid" Type="String" Nullable="false" />
+    <Property Name="InstanceState" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="WorkFlowStep" Relationship="DLOA.WorkFlowInstanceWorkFlowStep" FromRole="WorkFlowInstance" ToRole="WorkFlowStep" />
+  </EntityType>
+  <EntityType Name="WorkFlowStep">
+    <Key>
+      <PropertyRef Name="StepId" />
+    </Key>
+    <Property Name="StepId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NextId" Type="Int32" Nullable="false" />
+    <Property Name="SubBy" Type="Int32" Nullable="false" />
+    <Property Name="SubTime" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Remark" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="WorkFlowInstance" Relationship="DLOA.WorkFlowInstanceWorkFlowStep" FromRole="WorkFlowStep" ToRole="WorkFlowInstance" />
+    <Property Name="InstanceId" Type="Int32" Nullable="false" />
+    <Property Name="IsOver" Type="Boolean" Nullable="false" />
+    <Property Name="Comment" Type="Boolean" Nullable="false" />
+  </EntityType>
+  <Association Name="WorkFlowInstanceWorkFlowStep">
+    <End Type="DLOA.WorkFlowInstance" Role="WorkFlowInstance" Multiplicity="1" />
+    <End Type="DLOA.WorkFlowStep" Role="WorkFlowStep" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="WorkFlowInstance">
+        <PropertyRef Name="InstanceId" />
+      </Principal>
+      <Dependent Role="WorkFlowStep">
+        <PropertyRef Name="InstanceId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<objects>
+	<!--提供程序集，创建对象-->
+    <object type="DLOA.Service.UserInfoService, DLOA.Service" singleton="false" name="UserInfoService" >
+  </object>
+	<object type="DLOA.Service.RoleInfoService, DLOA.Service" singleton="false" name="RoleInfoService" >
+	</object>
+  <object type="DLOA.Service.ActionInfoService, DLOA.Service" singleton="false" name="ActionInfoService" >
+  </object>
+  <object type="DLOA.Model.UserInfo, DLOA.Model" singleton="false" name="UserInfo" >
+  </object>
+  <object type="DLOA.Service.WorkFlowModelService, DLOA.Service" singleton="false" name="WorkFlowModelService" >
+  </object>
+  <object type="DLOA.Service.WorkFlowInstanceService, DLOA.Service" singleton="false" name="WorkFlowInstanceService" >
+  </object>
+  <object type="DLOA.Service.WorkFlowStepService, DLOA.Service" singleton="false" name="WorkFlowStepService," >
+  </object>
+</objects>

@@ -1,0 +1,14 @@
+F:\OA\DLOA\Spring.Net\bin\Debug\App.config
+F:\OA\DLOA\Spring.Net\bin\Debug\Spring.Net.exe.config
+F:\OA\DLOA\Spring.Net\bin\Debug\Spring.Net.exe
+F:\OA\DLOA\Spring.Net\bin\Debug\Spring.Net.pdb
+F:\OA\DLOA\Spring.Net\bin\Debug\Common.Logging.dll
+F:\OA\DLOA\Spring.Net\bin\Debug\Spring.Core.dll
+F:\OA\DLOA\Spring.Net\bin\Debug\Spring.Core.pdb
+F:\OA\DLOA\Spring.Net\bin\Debug\Spring.Core.xml
+F:\OA\DLOA\Spring.Net\obj\Debug\Spring.Net.csprojResolveAssemblyReference.cache
+F:\OA\DLOA\Spring.Net\obj\Debug\Spring.Net.Form1.resources
+F:\OA\DLOA\Spring.Net\obj\Debug\Spring.Net.Properties.Resources.resources
+F:\OA\DLOA\Spring.Net\obj\Debug\Spring.Net.csproj.GenerateResource.Cache
+F:\OA\DLOA\Spring.Net\obj\Debug\Spring.Net.exe
+F:\OA\DLOA\Spring.Net\obj\Debug\Spring.Net.pdb

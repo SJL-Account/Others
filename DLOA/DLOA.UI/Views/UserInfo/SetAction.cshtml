@@ -1,0 +1,74 @@
+﻿@model List<DLOA.Model.ActionInfo>
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>SetAction</title>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery-1.7.1.min.js"></script>
+    <link href="~/Content/themes/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script>
+
+
+
+        $(function () {
+
+            $(':radio').bind('click',clickFun);
+        })
+
+        function clickFun()
+        {
+         
+              //收集数据
+                var aid = $(this).attr('name');
+                var isAllow = $(this).val();
+                //发送异步请求
+
+                $.post('@Url.Action("SetAction","UserInfo")',
+                    {
+                        uid:$("#uid").val(),
+                        aid:aid,
+                        isAllow:isAllow
+                    },function(data)
+                    {
+                        if(data!="ok")
+                        {
+                            alert("设置失败");
+                        }
+
+                    })
+
+           
+            //点击后自己的点击事件解绑，，兄弟节点事件解绑，，，，点击后再邦定
+           // $(this).unbind('click').siblings().unbind('click').bind('click', clickFun);
+
+        }
+    </script>
+</head>
+
+<body>
+<div>
+    <table class="table table-border" >
+        <input type="hidden" id="uid" value="@ViewData["uid"]" />
+        @foreach (var item in Model)
+        {
+          <tr>
+            <td>@item.ActionTitle</td>
+
+            <td><input type="radio" value="1" name="@item.ActionId"  />允许</td>
+            <td><input type="radio" value="-1" name="@item.ActionId" />拒绝</td>
+            <td><input type="radio" value="0" name="@item.ActionId" />取消</td>
+
+        </tr>
+        }
+
+    </table>
+</div>
+</body>
+</html>

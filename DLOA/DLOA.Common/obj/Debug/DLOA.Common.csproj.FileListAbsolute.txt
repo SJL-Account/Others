@@ -1,0 +1,14 @@
+F:\OA\DLOA\DLOA.Common\bin\Debug\DLOA.Common.dll
+F:\OA\DLOA\DLOA.Common\bin\Debug\DLOA.Common.pdb
+F:\OA\DLOA\DLOA.Common\bin\Debug\Memcached.ClientLibrary.dll
+F:\OA\DLOA\DLOA.Common\bin\Debug\log4net.dll
+F:\OA\DLOA\DLOA.Common\bin\Debug\ICSharpCode.SharpZipLib.dll
+F:\OA\DLOA\DLOA.Common\bin\Debug\Memcached.ClientLibrary.pdb
+F:\OA\DLOA\DLOA.Common\obj\Debug\DLOA.Common.dll
+F:\OA\DLOA\DLOA.Common\obj\Debug\DLOA.Common.pdb
+F:\OA\DLOA\DLOA.Common\obj\Debug\DLOA.Common.csprojResolveAssemblyReference.cache
+C:\Users\SJL\Desktop\DLOA\DLOA.Common\bin\Debug\DLOA.Common.dll
+C:\Users\SJL\Desktop\DLOA\DLOA.Common\bin\Debug\DLOA.Common.pdb
+C:\Users\SJL\Desktop\DLOA\DLOA.Common\obj\Debug\DLOA.Common.csprojResolveAssemblyReference.cache
+C:\Users\SJL\Desktop\DLOA\DLOA.Common\obj\Debug\DLOA.Common.dll
+C:\Users\SJL\Desktop\DLOA\DLOA.Common\obj\Debug\DLOA.Common.pdb

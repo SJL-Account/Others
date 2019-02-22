@@ -1,0 +1,2 @@
+obj\Debug\ApplyExpense.g.xaml
+obj\Debug\DLOA.WorkFlow_ApplyExpense_BeforeInitializeComponentHelper.txt

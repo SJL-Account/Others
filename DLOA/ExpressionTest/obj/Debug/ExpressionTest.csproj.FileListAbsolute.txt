@@ -1,0 +1,5 @@
+F:\OA\DLOA\ExpressionTest\bin\Debug\ExpressionTest.exe.config
+F:\OA\DLOA\ExpressionTest\bin\Debug\ExpressionTest.exe
+F:\OA\DLOA\ExpressionTest\bin\Debug\ExpressionTest.pdb
+F:\OA\DLOA\ExpressionTest\obj\Debug\ExpressionTest.exe
+F:\OA\DLOA\ExpressionTest\obj\Debug\ExpressionTest.pdb

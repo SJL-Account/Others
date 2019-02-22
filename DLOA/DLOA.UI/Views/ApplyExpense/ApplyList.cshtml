@@ -1,0 +1,106 @@
+﻿@using DLOA.Service
+@using DLOA.Model
+@model IQueryable<DLOA.Model.WorkFlowStep>
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ApplyList</title>
+    <link href="~/Content/themes/bootstrap/bootstrap.min.css" rel="stylesheet" />
+
+</head>
+<body>
+    <h4><font color="red">待审批列表</font></h4>
+    <table class="table table-responsive " >
+        <thead>
+            <tr>
+                <th>
+                    申请人
+                </th>
+                <th>
+                    申请时间
+                </th>
+                <th>
+                    申请标题
+                </th>
+                <th>
+                     发起人/上一审批人
+                </th>
+
+                <th>
+                    操作
+                </th>
+
+            </tr>
+        </thead>
+
+        @foreach (var item in (ViewData["workFlowStepWaittingList"] as IQueryable<WorkFlowStep>))
+          {
+              string url = "?InstanceId=" + item.InstanceId + "&StepId=" + item.StepId;
+
+        <tr>
+            <td>@((ViewBag.UserName as UserInfoService).GetList(m => m.UserId == item.WorkFlowInstance.SubBy).FirstOrDefault().UserName)</td>
+            <td>@item.WorkFlowInstance.SubTime</td>
+            <td>@item.WorkFlowInstance.InstantTitle</td>
+            <td>@((ViewBag.UserName as UserInfoService).GetList(m => m.UserId == item.SubBy).FirstOrDefault().UserName)</td>
+
+            <td><a href='@(Url.Action("ApplyAprrove", "ApplyExpense") + url)' style="color:red" >审批</a></td>
+
+        </tr>
+
+
+        }
+
+    </table>
+    <h4><font color="green">已审批</font></h4>
+    <table class="table table-responsive ">
+        <thead>
+            <tr>
+                <th>
+                    申请人
+                </th>
+                <th>
+                    申请时间
+                </th>
+                <th>
+                    申请标题
+                </th>
+                <th>
+                    审批时间
+                </th>
+                <th>
+                    审批意见
+                </th>
+                <th>
+                    操作
+                </th>
+
+            </tr>
+        </thead>
+
+        @foreach (var item in (ViewData["workFlowStepOverList"] as IQueryable<WorkFlowStep>))
+        {
+            string url = "?InstanceId=" + item.InstanceId + "&StepId=" + item.StepId;
+
+            <tr>
+                <td>@((ViewBag.UserName as UserInfoService).GetList(m => m.UserId == item.WorkFlowInstance.SubBy).FirstOrDefault().UserName)</td>
+                <td>@item.WorkFlowInstance.SubTime</td>
+                <td>@item.WorkFlowInstance.InstantTitle</td>
+                <td>@item.SubTime</td>
+                <td>@Html.Raw(item.Comment ? "<font color='green'>通过</font>" : "<font color='red'>驳回</font>")</td>
+                <td><a href='@(Url.Action("ApplyDetails", "ApplyExpense") + url)' style="color:green">查看</a></td>
+
+            </tr>
+
+
+        }
+
+    </table>
+
+</body>
+</html>

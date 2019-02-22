@@ -1,0 +1,48 @@
+﻿@model DLOA.Model.RoleInfo
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Edit</title>
+    <link href="~/Content/themes/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery-1.7.1.min.js"></script>
+    <script src="~/Scripts/jquery.easyui.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script type="text/javascript">
+        function EditSubmit ()
+        {
+            $("form").submit();
+        }
+        function EditAfter(msg)
+        {
+            window.parent.EditAfter(msg);
+        }
+    </script>
+</head>
+<body>
+    @using (Ajax.BeginForm("Edit", "RoleInfo", new AjaxOptions { 
+    OnSuccess="EditAfter"
+    }))
+    {
+            <div> 
+        <table class="table table-border " >
+            <tr>
+                <td><label>角色名称</label></td>
+                <td>@Html.TextBoxFor(m => m.RoleName, new { @class = "form-control" })<input type="hidden"   name="RoleId" value="@Model.RoleId" /></td>
+            </tr>
+            <tr>
+                <td><label>备注</label></td>
+                <td>@Html.TextBoxFor(m => m.Remark, new { @class = "form-control" })</td>
+            </tr>
+        </table>
+    </div>
+    }
+
+</body>
+</html>

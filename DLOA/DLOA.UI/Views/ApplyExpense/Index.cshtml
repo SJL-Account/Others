@@ -1,0 +1,72 @@
+﻿@model DLOA.UI.Models.ExpenseFormData
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <link href="~/Content/themes/bootstrap/bootstrap.min.css" rel="stylesheet" />
+
+    <style>
+        body {
+            font-family:微软雅黑;
+        }
+    </style>
+    <script src="~/Scripts/jquery-1.7.1.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script>
+        function AddAfter(msg)
+        {
+            if (msg=="ok") {
+                alert("申请已提交,等待审核");
+            }
+            else
+            {
+                alert("申请提交失败");
+
+            }
+
+
+        }
+
+    </script>
+</head>
+<body>
+   <a href="WorkFlow/Index">返回</a>
+<h3>报销流程发起</h3>              <a class="pull-right">我的工作流</a>
+  
+    @using(Ajax.BeginForm("ApplyStart","ApplyExpense",new AjaxOptions{
+    OnSuccess="AddAfter"
+    
+    } ) )
+    {
+        <table class="table table-responsive" >
+            <tbody>
+                <tr>
+                    <td>申请标题</td>
+                    <td><input type="text" name="InstanceTitle" class="form-control"   /></td>
+                </tr>
+                <tr>
+                    <td>原因</td>
+                    <td><input type="text" name="Reason" class="form-control" /></td>
+                </tr>
+                <tr>
+                    <td>金额</td>
+                    <td><input type="text" name="Money" class="form-control" /></td>
+                </tr>
+                <tr>
+                    <td>上级审批人</td>
+                    <td>@Html.DropDownList("NextId", (IEnumerable<SelectListItem>)ViewData["selectList"], new { @class = "form-control" }) </td>
+                </tr>
+            </tbody>
+
+        </table>
+        <input  type="submit"  class="btn btn-danger pull-right"  value="发起"  />
+    }
+</body>
+</html>
+@*<input type="text" name="NextId" class="form-control" />*@

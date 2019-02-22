@@ -1,0 +1,4 @@
+obj\Debug\_DLOA.WorkFlow.g.cs
+obj\Debug\ApplyExpense.g.cs
+obj\Debug\DLOA.WorkFlow_ApplyExpense_BeforeInitializeComponentHelper.cs
+C:\Users\SJL\Desktop\DLOA\DLOA.WorkFlow\obj\Debug\DLOA.WorkFlow_ApplyExpense_CompiledExpressionRoot.cs

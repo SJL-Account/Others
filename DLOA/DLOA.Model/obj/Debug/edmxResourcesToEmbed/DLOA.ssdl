@@ -1,0 +1,228 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DLOA.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="DLOAStoreContainer">
+    <EntitySet Name="UserInfoSet" EntityType="DLOA.Store.UserInfoSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="RoleInfoSet" EntityType="DLOA.Store.RoleInfoSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ActionInfoSet" EntityType="DLOA.Store.ActionInfoSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="UserActionSet" EntityType="DLOA.Store.UserActionSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="WorkFlowModelSet" EntityType="DLOA.Store.WorkFlowModelSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="WorkFlowInstanceSet" EntityType="DLOA.Store.WorkFlowInstanceSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="WorkFlowStepSet" EntityType="DLOA.Store.WorkFlowStepSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="UserInfoRoleInfo" EntityType="DLOA.Store.UserInfoRoleInfo" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="RoleInfoActionInfo" EntityType="DLOA.Store.RoleInfoActionInfo" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_UserInfoRoleInfo_UserInfo" Association="DLOA.Store.FK_UserInfoRoleInfo_UserInfo">
+      <End Role="UserInfo" EntitySet="UserInfoSet" />
+      <End Role="UserInfoRoleInfo" EntitySet="UserInfoRoleInfo" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserInfoRoleInfo_RoleInfo" Association="DLOA.Store.FK_UserInfoRoleInfo_RoleInfo">
+      <End Role="RoleInfo" EntitySet="RoleInfoSet" />
+      <End Role="UserInfoRoleInfo" EntitySet="UserInfoRoleInfo" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RoleInfoActionInfo_RoleInfo" Association="DLOA.Store.FK_RoleInfoActionInfo_RoleInfo">
+      <End Role="RoleInfo" EntitySet="RoleInfoSet" />
+      <End Role="RoleInfoActionInfo" EntitySet="RoleInfoActionInfo" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RoleInfoActionInfo_ActionInfo" Association="DLOA.Store.FK_RoleInfoActionInfo_ActionInfo">
+      <End Role="ActionInfo" EntitySet="ActionInfoSet" />
+      <End Role="RoleInfoActionInfo" EntitySet="RoleInfoActionInfo" />
+    </AssociationSet>
+    <AssociationSet Name="UserInfoUserAction" Association="DLOA.Store.UserInfoUserAction">
+      <End Role="UserInfo" EntitySet="UserInfoSet" />
+      <End Role="UserAction" EntitySet="UserActionSet" />
+    </AssociationSet>
+    <AssociationSet Name="UserActionActionInfo" Association="DLOA.Store.UserActionActionInfo">
+      <End Role="UserAction" EntitySet="UserActionSet" />
+      <End Role="ActionInfo" EntitySet="ActionInfoSet" />
+    </AssociationSet>
+    <AssociationSet Name="WorkFlowInstanceWorkFlowStep" Association="DLOA.Store.WorkFlowInstanceWorkFlowStep">
+      <End Role="WorkFlowInstance" EntitySet="WorkFlowInstanceSet" />
+      <End Role="WorkFlowStep" EntitySet="WorkFlowStepSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="UserInfoSet">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar" Nullable="false" MaxLength="10" />
+    <Property Name="UserPwd" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+    <Property Name="Remark" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="SubBy" Type="int" Nullable="false" />
+    <Property Name="SubTime" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="RoleInfoSet">
+    <Key>
+      <PropertyRef Name="RoleId" />
+    </Key>
+    <Property Name="RoleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RoleName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+    <Property Name="Remark" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="SubBy" Type="int" Nullable="false" />
+    <Property Name="SubTime" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ActionInfoSet">
+    <Key>
+      <PropertyRef Name="ActionId" />
+    </Key>
+    <Property Name="ActionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ActionTitle" Type="nvarchar" Nullable="false" MaxLength="500" />
+    <Property Name="ControllerName" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="ActionName" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+    <Property Name="Remark" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="SubBy" Type="int" Nullable="false" />
+    <Property Name="SubTime" Type="datetime" Nullable="false" />
+    <Property Name="RoleInfoRoleId" Type="int" Nullable="false" />
+    <Property Name="IsMenu" Type="bit" Nullable="false" />
+    <Property Name="MenuIcon" Type="varchar" Nullable="true" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="UserActionSet">
+    <Key>
+      <PropertyRef Name="UserId" />
+      <PropertyRef Name="ActionId" />
+    </Key>
+    <Property Name="IsAllow" Type="bit" Nullable="false" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+    <Property Name="ActionId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="WorkFlowModelSet">
+    <Key>
+      <PropertyRef Name="ModelId" />
+    </Key>
+    <Property Name="ModelId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ModelTitle" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="ControllerName" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="ActionName" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+    <Property Name="SubTime" Type="datetime" Nullable="false" />
+    <Property Name="SubBy" Type="int" Nullable="false" />
+    <Property Name="Remark" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="WorkFlowInstanceSet">
+    <Key>
+      <PropertyRef Name="InstanceId" />
+    </Key>
+    <Property Name="InstanceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="InstantTitle" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="SubBy" Type="int" Nullable="false" />
+    <Property Name="SubTime" Type="datetime" Nullable="false" />
+    <Property Name="Remark" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="InstanceGuid" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="InstanceState" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="WorkFlowStepSet">
+    <Key>
+      <PropertyRef Name="StepId" />
+    </Key>
+    <Property Name="StepId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NextId" Type="int" Nullable="false" />
+    <Property Name="SubBy" Type="int" Nullable="false" />
+    <Property Name="SubTime" Type="datetime" Nullable="false" />
+    <Property Name="Remark" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="InstanceId" Type="int" Nullable="false" />
+    <Property Name="IsOver" Type="bit" Nullable="false" />
+    <Property Name="Comment" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="UserInfoRoleInfo">
+    <Key>
+      <PropertyRef Name="UserInfo_UserId" />
+      <PropertyRef Name="RoleInfo_RoleId" />
+    </Key>
+    <Property Name="UserInfo_UserId" Type="int" Nullable="false" />
+    <Property Name="RoleInfo_RoleId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="RoleInfoActionInfo">
+    <Key>
+      <PropertyRef Name="RoleInfo_RoleId" />
+      <PropertyRef Name="ActionInfo_ActionId" />
+    </Key>
+    <Property Name="RoleInfo_RoleId" Type="int" Nullable="false" />
+    <Property Name="ActionInfo_ActionId" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="UserInfoUserAction">
+    <End Role="UserInfo" Type="DLOA.Store.UserInfoSet" Multiplicity="1" />
+    <End Role="UserAction" Type="DLOA.Store.UserActionSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserInfo">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="UserAction">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UserActionActionInfo">
+    <End Role="UserAction" Type="DLOA.Store.UserActionSet" Multiplicity="*" />
+    <End Role="ActionInfo" Type="DLOA.Store.ActionInfoSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="ActionInfo">
+        <PropertyRef Name="ActionId" />
+      </Principal>
+      <Dependent Role="UserAction">
+        <PropertyRef Name="ActionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="WorkFlowInstanceWorkFlowStep">
+    <End Role="WorkFlowInstance" Type="DLOA.Store.WorkFlowInstanceSet" Multiplicity="1" />
+    <End Role="WorkFlowStep" Type="DLOA.Store.WorkFlowStepSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="WorkFlowInstance">
+        <PropertyRef Name="InstanceId" />
+      </Principal>
+      <Dependent Role="WorkFlowStep">
+        <PropertyRef Name="InstanceId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserInfoRoleInfo_UserInfo">
+    <End Role="UserInfo" Type="DLOA.Store.UserInfoSet" Multiplicity="1" />
+    <End Role="UserInfoRoleInfo" Type="DLOA.Store.UserInfoRoleInfo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserInfo">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="UserInfoRoleInfo">
+        <PropertyRef Name="UserInfo_UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserInfoRoleInfo_RoleInfo">
+    <End Role="UserInfoRoleInfo" Type="DLOA.Store.UserInfoRoleInfo" Multiplicity="*" />
+    <End Role="RoleInfo" Type="DLOA.Store.RoleInfoSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="RoleInfo">
+        <PropertyRef Name="RoleId" />
+      </Principal>
+      <Dependent Role="UserInfoRoleInfo">
+        <PropertyRef Name="RoleInfo_RoleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RoleInfoActionInfo_RoleInfo">
+    <End Role="RoleInfo" Type="DLOA.Store.RoleInfoSet" Multiplicity="1" />
+    <End Role="RoleInfoActionInfo" Type="DLOA.Store.RoleInfoActionInfo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="RoleInfo">
+        <PropertyRef Name="RoleId" />
+      </Principal>
+      <Dependent Role="RoleInfoActionInfo">
+        <PropertyRef Name="RoleInfo_RoleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RoleInfoActionInfo_ActionInfo">
+    <End Role="RoleInfoActionInfo" Type="DLOA.Store.RoleInfoActionInfo" Multiplicity="*" />
+    <End Role="ActionInfo" Type="DLOA.Store.ActionInfoSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="ActionInfo">
+        <PropertyRef Name="ActionId" />
+      </Principal>
+      <Dependent Role="RoleInfoActionInfo">
+        <PropertyRef Name="ActionInfo_ActionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

@@ -1,0 +1,113 @@
+﻿@using DLOA.Model
+@model IQueryable<DLOA.Model.ActionInfo>
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>SetAction</title>
+    <script src="~/Scripts/jquery-1.7.1.min.js"></script>
+
+
+    <script src="~/Scripts/easyui-lang-zh_CN.js"></script>
+    <script src="~/Scripts/jquery.easyui.min.js"></script>
+    <link href="~/Content/themes/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/themes/default/easyui.css" rel="stylesheet" />
+    <link href="~/Content/themes/icon.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/MyAjaxForm.js"></script>
+    <script>
+
+
+
+
+        function SetAction()
+        {
+            var ids = '';
+            $(':checked').each(function () {
+                ids += $(this).val() + ',';
+            });
+            //if(ids=='')
+            //{
+            //    $.messager.alert('提示','请选择一个权限');
+            //    return;
+            //}
+            ids = ids.substring(0, ids.length - 1);
+            $.post('@Url.Action("SetAction","RoleInfo")', {
+                ids: ids,
+                RoleId: $("#RoleId").val()
+            }, function (data) {
+                if (data == "ok")
+                {
+                    alert('设置成功');
+                    window.parent.$("#RoleList").datagrid("reload");
+                    window.parent.$("#ActionDiv").dialog("close");
+
+                }
+                else if(data=="no")
+                {
+                    alert('设置失败');
+
+                }
+
+            })
+
+        }
+    </script>
+
+</head>
+</head>
+<body>
+    
+    @{
+        var roleInfo = ViewBag.RoleInfo as RoleInfo;
+        
+    }
+    <input type="hidden" id="RoleId" value="@ViewData["rid"]" />
+    <table class="table table-border" >
+        <thead>
+            <tr>
+                <th>选择</th>
+                <th>权限名称</th>
+                <th>是否为桌面菜单</th>
+
+                <th>描述</th>
+
+            </tr>
+        </thead>
+@foreach (var item in Model)
+{
+
+        <tr>
+        <td>
+            <input type="checkbox" value="@item.ActionId" 
+                   @{ if (roleInfo.ActionInfo.Contains(item)) {
+                           @Html.Raw("checked='checked'") 
+                   } }></td>
+        <td>
+            @item.ActionTitle 
+        </td>
+            <td>
+                @(item.IsMenu?"是":"否")
+
+
+            </td>
+            <td>
+                @item.Remark
+
+            </td>
+        </tr>
+}
+    </table>
+                                                               
+     
+
+
+
+
+</body>
+</html>
