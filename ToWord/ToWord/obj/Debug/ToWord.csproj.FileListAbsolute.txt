@@ -1,0 +1,9 @@
+d:\用户目录\我的文档\visual studio 2013\Socket\ToWord\ToWord\bin\Debug\ToWord.exe.config
+d:\用户目录\我的文档\visual studio 2013\Socket\ToWord\ToWord\bin\Debug\ToWord.exe
+d:\用户目录\我的文档\visual studio 2013\Socket\ToWord\ToWord\bin\Debug\ToWord.pdb
+d:\用户目录\我的文档\visual studio 2013\Socket\ToWord\ToWord\obj\Debug\ToWord.csprojResolveAssemblyReference.cache
+d:\用户目录\我的文档\visual studio 2013\Socket\ToWord\ToWord\obj\Debug\ToWord.exe
+d:\用户目录\我的文档\visual studio 2013\Socket\ToWord\ToWord\obj\Debug\ToWord.pdb
+C:\Users\Administrator\Desktop\ToWord\ToWord\bin\Debug\ToWord.exe.config
+C:\Users\Administrator\Desktop\ToWord\ToWord\obj\Debug\ToWord.exe
+C:\Users\Administrator\Desktop\ToWord\ToWord\obj\Debug\ToWord.pdb
